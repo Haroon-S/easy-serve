@@ -9,8 +9,8 @@ export function Header() {
         </div>
         <nav className="flex gap-6 font-medium">
           <Link href="/">Home</Link>
-          <Link href="/register">Register</Link>
-          <Link href="/login">Login</Link>
+          <Link href="/auth/register">Register</Link>
+          <Link href="/auth/login">Login</Link>
         </nav>
       </div>
     </header>

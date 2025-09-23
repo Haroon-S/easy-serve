@@ -1,3 +1,5 @@
+'use client'
+
 import ContactSection from "@/components/landingPage/ContactSection";
 import HeroSection from "@/components/landingPage/HeroSection";
 import MenuSection from "@/components/landingPage/MenuItems";
@@ -9,7 +11,7 @@ export default function Home() {
     <div>
       <HeroSection />
       <RestaurantsList />
-      <MenuSection />
+      {/* <MenuSection /> */}
       <ContactSection />
     </div>
   );

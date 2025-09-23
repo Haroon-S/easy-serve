@@ -1,7 +1,15 @@
 "use client";
+import { useLoginMutation } from "@/services/public/auth";
+import { onLoggedIn } from "@/store/slices/authSlice";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [errors, setErrors] = useState({});
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -11,9 +19,29 @@ export default function LoginPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted", form);
+    setErrors({});
+
+    try {
+      const result = await login(formData).unwrap();
+      console.log("Login successful:", result);
+
+      // Store token or user data (adjust based on your API response)
+      if (result.data) {
+        dispatch(onLoggedIn(result.data));
+      }
+
+      // Redirect to home or dashboard
+      router.push("/");
+    } catch (error) {
+      console.error("Login failed:", error);
+      if (error.data) {
+        setErrors(error.data);
+      } else {
+        setErrors({ general: "Login failed. Please try again." });
+      }
+    }
   };
 
   return (
@@ -47,9 +75,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full bg-green-900 text-white py-2 rounded hover:bg-green-800"
           >
-            Login
+            {isLoading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 

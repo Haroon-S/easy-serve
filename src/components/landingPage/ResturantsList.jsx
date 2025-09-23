@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { MapPin, Phone, Utensils } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { MapPin, Phone, Utensils } from "lucide-react";
+import { motion } from "framer-motion";
+import { useGetRestaurantsQuery } from "@/services/public/resturants";
+import { useRouter } from "next/navigation";
 
 // RestaurantCard Component
-const RestaurantCard = ({ name, description, address, phone }) => {
+const RestaurantCard = ({ id, name, description, address, phone }) => {
+  const router = useRouter();
   return (
     <motion.div
       className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow duration-300"
@@ -26,52 +29,33 @@ const RestaurantCard = ({ name, description, address, phone }) => {
         </div>
       </div>
 
-      <button className="bg-green-900 text-white font-semibold px-4 py-2 rounded-lg hover:bg-green-800 transition-colors">
+      <button onClick={() => router.push(`/restaurant/${id}`)} className="bg-green-900 cursor-pointer text-white font-semibold px-4 py-2 rounded-lg hover:bg-green-800 transition-colors">
         View Menu
       </button>
     </motion.div>
   );
 };
 
-// Data Array
-const restaurants = [
-  {
-    name: 'Maple Kitchen #1',
-    description: 'Casual dining with diverse menu',
-    address: '101 Maple St',
-    phone: '+1-202-000-0001',
-  },
-  {
-    name: 'Urban Spoon #2',
-    description: 'Casual dining with diverse menu',
-    address: '102 Urban St',
-    phone: '+1-202-000-0002',
-  },
-  {
-    name: 'Blue Grill #3',
-    description: 'Casual dining with diverse menu',
-    address: '103 Blue St',
-    phone: '+1-202-000-0003',
-  },
-  {
-    name: 'Rustic Corner #4',
-    description: 'Casual dining with diverse menu',
-    address: '104 Rustic St',
-    phone: '+1-202-000-0004',
-  },
-];
-
 // Main Component
 export default function RestaurantsList() {
+  const { data, isLoading } = useGetRestaurantsQuery();
+
   return (
     <section className="bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-10">
           Our Restaurants
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {restaurants.map((restaurant, index) => (
-            <RestaurantCard key={index} {...restaurant} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data?.results?.map((restaurant, index) => (
+            <RestaurantCard
+              key={restaurant?.id}
+              id={restaurant?.id}
+              phone={restaurant?.phone_number}
+              address={restaurant?.address}
+              name={restaurant?.name}
+              description={restaurant?.description}
+            />
           ))}
         </div>
       </div>

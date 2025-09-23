@@ -1,7 +1,12 @@
 "use client";
+import { useSignUpMutation } from "@/services/public/auth";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RegisterPage() {
+  const [errors, setErrors] = useState({});
+  const router = useRouter();
+  const [signUp, { isLoading }] = useSignUpMutation();
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -15,9 +20,30 @@ export default function RegisterPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted", form);
+    setErrors({});
+
+    // Basic validation
+    if (formData.password !== formData.confirm_password) {
+      setErrors({ confirm_password: "Passwords do not match" });
+      return;
+    }
+
+    try {
+      const result = await signUp(formData).unwrap();
+      console.log("Registration successful:", result);
+
+      // Redirect to login or home page
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration failed:", error);
+      if (error.data) {
+        setErrors(error.data);
+      } else {
+        setErrors({ general: "Registration failed. Please try again." });
+      }
+    }
   };
 
   return (
@@ -85,12 +111,18 @@ export default function RegisterPage() {
             required
             className="w-full p-2 border rounded"
           />
+          {errors.confirm_password && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.confirm_password}
+            </p>
+          )}
 
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full bg-green-900 text-white py-2 rounded hover:bg-green-800"
           >
-            Create account
+            {isLoading ? "Creating account..." : "Create account"}
           </button>
         </form>
 
