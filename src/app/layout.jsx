@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
     <StateProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <Header />
+          {/* <Header /> */}
           <main className="flex-grow bg-gray-50">{children}</main>
           <Footer />
         </body>
