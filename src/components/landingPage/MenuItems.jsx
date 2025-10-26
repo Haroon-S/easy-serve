@@ -11,7 +11,10 @@ import MenuPic from "@/assets/menuImgs/menu-pic.jpg";
 // -------------------------
 // MenuItemCard Component
 // -------------------------
-const MenuItemCard = ({ id, name, description, price, image }) => {
+export const MenuItemCard = ({ id, name, description, price, image }) => {
+  console.log('name ==>', name);
+  console.log('image ==>', image);
+  
     const dispatch = useDispatch();
 
     // check if item exists in cart

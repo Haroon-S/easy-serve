@@ -9,9 +9,12 @@ import {
   decreaseQty,
   toggleCart,
 } from "@/store/slices/cartSlice";
+import MenuPic from "@/assets/menuImgs/menu-pic.jpg";
+import { useAddOrderMutation } from "@/services/private/orders";
 
 export default function CartDrawer() {
   const dispatch = useDispatch();
+  const [addOrder, { isLoading }] = useAddOrderMutation();
   const { isOpen, items } = useSelector((state) => state.cart);
 
   const subtotal = items.reduce((acc, item) => acc + item.price * item.qty, 0);
@@ -19,6 +22,10 @@ export default function CartDrawer() {
   const deliveryFee = 120;
   const discount = subtotal * 0.15;
   const total = subtotal + tax + deliveryFee - discount;
+
+  const handleCheckout = async () => {
+    await addOrder()
+  }
 
   return (
     <motion.div
@@ -47,8 +54,8 @@ export default function CartDrawer() {
             >
               <div className="flex items-center space-x-3">
                 <Image
-                  src={item.image}
-                  alt={item.name}
+                  src={item.image || MenuPic}
+                  alt={"Image"}
                   width={50}
                   height={50}
                   className="rounded"
@@ -85,7 +92,7 @@ export default function CartDrawer() {
       </div>
 
       {/* Summary */}
-      <div className="p-4 border-t space-y-2">
+      {items.length !== 0 && <div className="p-4 border-t space-y-2">
         <div className="flex justify-between text-sm">
           <span>Total</span>
           <span>Rs. {subtotal}</span>
@@ -106,10 +113,10 @@ export default function CartDrawer() {
           <span>Grand Total</span>
           <span>Rs. {total}</span>
         </div>
-        <button className="w-full bg-green-700 text-white py-2 rounded-lg mt-2">
+        <button onClick={handleCheckout} disabled={items.length === 0} className="w-full bg-green-700 text-white py-2 rounded-lg mt-2 disabled:bg-green-300">
           Checkout
         </button>
-      </div>
+      </div>}
     </motion.div>
   );
 }
