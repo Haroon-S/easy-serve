@@ -1,43 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Clock, CheckCircle, UtensilsCrossed, Truck } from "lucide-react";
+import { Clock, CheckCircle, UtensilsCrossed, Truck } from "lucide-react";
 import TableCard from "@/components/admin/TableCard";
 
 export default function DashboardPage() {
   // Demo data
-  const waiter = {
+  const user = {
     name: "Ali Khan",
     id: "WTR-203",
-    profile:
-      "https://randomuser.me/api/portraits/men/75.jpg",
+    role: "Waiter",
+    profile: "https://randomuser.me/api/portraits/men/75.jpg",
   };
 
   const stats = [
-    {
-      title: "Total Orders Today",
-      value: 28,
-      icon: UtensilsCrossed,
-      color: "bg-yellow-100 text-yellow-700",
-    },
-    {
-      title: "Orders Served",
-      value: 22,
-      icon: CheckCircle,
-      color: "bg-green-100 text-green-700",
-    },
-    {
-      title: "Ready for Pickup",
-      value: 4,
-      icon: Truck,
-      color: "bg-blue-100 text-blue-700",
-    },
-    {
-      title: "Avg Serve Time",
-      value: "15 min",
-      icon: Clock,
-      color: "bg-purple-100 text-purple-700",
-    },
+    { title: "Total Orders Today", value: 28, icon: UtensilsCrossed, color: "bg-yellow-50 text-yellow-700 border-yellow-100" },
+    { title: "Orders Served", value: 22, icon: CheckCircle, color: "bg-green-50 text-green-700 border-green-100" },
+    { title: "Ready for Pickup", value: 4, icon: Truck, color: "bg-blue-50 text-blue-700 border-blue-100" },
+    { title: "Avg Serve Time", value: "15 min", icon: Clock, color: "bg-purple-50 text-purple-700 border-purple-100" },
   ];
 
   const tables = [
@@ -68,40 +48,44 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="space-y-8">
-      {/* 🧑‍🍳 Waiter Info */}
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <div className="flex items-center gap-4">
+    <div className="space-y-10">
+
+      {/* 🧑‍🍳 User Info Card */}
+      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 flex items-center justify-between flex-wrap gap-6">
+        <div className="flex items-center gap-5">
           <img
-            src={waiter.profile}
-            alt={waiter.name}
-            className="w-14 h-14 rounded-full border-2 border-yellow-400 object-cover"
+            src={user.profile}
+            alt={user.name}
+            className="w-16 h-16 rounded-full border-2 border-yellow-400 object-cover shadow-sm"
           />
           <div>
             <h2 className="text-xl font-semibold text-gray-800">
-              Welcome, {waiter.name}
+              {user.name}
             </h2>
-            <p className="text-sm text-gray-500">ID: {waiter.id}</p>
+            <p className="text-sm text-gray-500 mt-1">ID: {user.id}</p>
+            <p className="text-sm font-medium text-yellow-700 mt-2 bg-yellow-50 px-3 py-1 rounded-full w-fit">
+              {user.role}
+            </p>
           </div>
         </div>
 
-        <div className="text-right">
-          <p className="text-gray-600 text-sm">Shift: 12 PM – 10 PM</p>
-          <p className="text-gray-600 text-sm">Date: {new Date().toDateString()}</p>
+        <div className="text-right text-gray-600">
+          <p className="text-sm">Shift: 12 PM – 10 PM</p>
+          <p className="text-sm mt-1">Date: {new Date().toDateString()}</p>
         </div>
       </div>
 
       {/* 📊 Stats Cards */}
       <motion.div
-        className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
+        className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
         {stats.map((s, i) => (
           <motion.div
             key={i}
-            whileHover={{ scale: 1.03 }}
-            className={`rounded-2xl p-5 flex items-center gap-4 shadow-sm border ${s.color}`}
+            whileHover={{ scale: 1.04 }}
+            className={`rounded-2xl p-5 flex items-center gap-4 border shadow-sm transition-all duration-200 ${s.color}`}
           >
             <s.icon className="w-8 h-8 opacity-80" />
             <div>
@@ -112,13 +96,13 @@ export default function DashboardPage() {
         ))}
       </motion.div>
 
-      {/* 🪑 Tables */}
+      {/* 🪑 Tables Section */}
       <div>
-        <h3 className="text-2xl font-semibold mb-6 text-yellow-700">
+        <h3 className="text-2xl font-semibold mb-6 text-yellow-800 border-l-4 border-yellow-400 pl-3">
           Assigned Tables
         </h3>
         <motion.div
-          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
