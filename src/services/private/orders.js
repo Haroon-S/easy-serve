@@ -14,7 +14,7 @@ export const orderApi = privateAPi.injectEndpoints({
 
     getOrder: build.query({
       query: (id) => ({
-        url: `/restaurants/restaurants/${id}/`,
+        url: "/restaurants/orders/",
         method: "GET",
       }),
       providesTags: (result, error, id) => [{ type: "getOrder", id }],

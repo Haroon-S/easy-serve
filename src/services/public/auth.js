@@ -4,9 +4,11 @@ export const authApi = publicApi.injectEndpoints({
   endpoints: build => ({
     signUp: build.mutation({
       query: body => {
+        console.log("body ==> ", body);
+        
         const profile = {
-          first_name: body?.first_name,
-          last_name: body?.last_name,
+          first_name: body?.firstName,
+          last_name: body?.lastName,
         };
 
         const payload = {

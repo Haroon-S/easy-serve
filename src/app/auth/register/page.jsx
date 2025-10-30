@@ -30,29 +30,16 @@ export default function RegisterPage() {
     defaultValues: registerDefaultValues,
   });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setErrors({});
+  const onSubmit = async (value) => {
 
-    // Basic validation
-    if (formData.password !== formData.confirm_password) {
-      setErrors({ confirm_password: "Passwords do not match" });
-      return;
-    }
-
+    console.log("Registration successful:", value);
     try {
-      const result = await signUp(formData).unwrap();
-      console.log("Registration successful:", result);
+      const result = await signUp(value).unwrap();
 
       // Redirect to login or home page
-      navigate("/login");
+      router.push('/login')
     } catch (error) {
       console.error("Registration failed:", error);
-      if (error.data) {
-        setErrors(error.data);
-      } else {
-        setErrors({ general: "Registration failed. Please try again." });
-      }
     }
   };
 

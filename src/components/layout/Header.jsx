@@ -20,6 +20,7 @@ export function Header() {
         {/* Nav Links */}
         <nav className="flex gap-6 font-medium items-center">
           <Link href="/">Home</Link>
+          <Link href="/orders">Order</Link>
           <Link href="/auth/register">Register</Link>
           <Link href="/auth/login">Login</Link>
 

@@ -32,11 +32,10 @@ export default function LoginPage() {
     defaultValues: loginDefaultValues,
   });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (values) => {
 
     try {
-      const result = await login(formData).unwrap();
+      const result = await login(values).unwrap();
       console.log("Login successful:", result);
 
       // Store token or user data (adjust based on your API response)
@@ -47,7 +46,7 @@ export default function LoginPage() {
       // Redirect to home or dashboard
       router.push("/");
     } catch (error) {
-      console.error("Login failed:", error);
+      console.log("Login failed:", error);
     }
   };
 
