@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
 const initialState = {
   isOpen: false,
   items: [],
@@ -39,10 +38,19 @@ const cartSlice = createSlice({
         }
       }
     },
+    clearCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { toggleCart, addItem, removeItem, increaseQty, decreaseQty } =
-  cartSlice.actions;
+export const { 
+  toggleCart, 
+  addItem, 
+  removeItem, 
+  increaseQty, 
+  decreaseQty, 
+  clearCart 
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
