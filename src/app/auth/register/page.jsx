@@ -37,7 +37,7 @@ export default function RegisterPage() {
       const result = await signUp(value).unwrap();
 
       // Redirect to login or home page
-      router.push('/login')
+      router.push('/auth/login')
     } catch (error) {
       console.error("Registration failed:", error);
     }
